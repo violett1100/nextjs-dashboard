@@ -4,12 +4,12 @@ import { CustomerField, InvoiceForm } from '@/app/lib/definitions'
 import { CheckIcon, ClockIcon, CurrencyDollarIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { Button } from '@/app/ui/button'
-import { updateInvoice, State } from '@/app/lib/actions'
+import { updateInvoice, StateInvoice } from '@/app/lib/actions'
 // import { useActionState } from 'react'
 import { useFormState } from 'react-dom'
 
 export default function EditInvoiceForm({ invoice, customers }: { invoice: InvoiceForm; customers: CustomerField[] }) {
-    const initialState: State = { message: null, errors: {} }
+    const initialState: StateInvoice = { message: null, errors: {} }
     const updateInvoiceWithId = updateInvoice.bind(null, invoice.id)
     const [state, formAction] = useFormState(updateInvoiceWithId, initialState)
 

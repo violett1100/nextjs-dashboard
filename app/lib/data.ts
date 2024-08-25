@@ -1,5 +1,13 @@
 import { sql } from '@vercel/postgres'
-import { CustomerField, CustomersTableType, InvoiceForm, InvoicesTable, LatestInvoiceRaw, Revenue } from './definitions'
+import {
+    CustomerField,
+    CustomerForm,
+    CustomersTableType,
+    InvoiceForm,
+    InvoicesTable,
+    LatestInvoiceRaw,
+    Revenue,
+} from './definitions'
 import { formatCurrency } from './utils'
 
 export async function fetchRevenue() {
@@ -35,6 +43,26 @@ export async function fetchLatestInvoices() {
             amount: formatCurrency(invoice.amount),
         }))
         return latestInvoices
+    } catch (error) {
+        console.error('Database Error:', error)
+        throw new Error('Failed to fetch the latest invoices.')
+    }
+}
+
+export async function test() {
+    try {
+        const data = await sql`
+      SELECT customers.name
+      FROM invoices
+      JOIN customers ON invoices.customer_id = customers.id
+      ORDER BY invoices.date DESC
+      LIMIT 5`
+
+        const testData = data.rows.map((name) => ({
+            ...name,
+            // amount: formatCurrency(name.amount),
+        }))
+        return testData
     } catch (error) {
         console.error('Database Error:', error)
         throw new Error('Failed to fetch the latest invoices.')
@@ -166,6 +194,29 @@ export async function fetchCustomers() {
     } catch (err) {
         console.error('Database Error:', err)
         throw new Error('Failed to fetch all customers.')
+    }
+}
+
+export async function fetchCustomerById(id: string) {
+    try {
+        const data = await sql<CustomerForm>`
+      SELECT
+        customers.id,
+        customers.name,
+        customers.email,
+        customers.image_url AS picture
+      FROM customers
+      WHERE customers.id = ${id};
+    `
+
+        const customer = data.rows.map((customer) => ({
+            ...customer,
+        }))
+        console.log(customer) // Invoice is an empty array []
+        return customer[0]
+    } catch (error) {
+        console.error('Database Error:', error)
+        throw new Error('Failed to fetch customer.')
     }
 }
 

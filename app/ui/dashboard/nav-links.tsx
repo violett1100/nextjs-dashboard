@@ -1,5 +1,11 @@
 'use client'
-import { UserGroupIcon, HomeIcon, DocumentDuplicateIcon, AcademicCapIcon } from '@heroicons/react/24/outline'
+import {
+    UserGroupIcon,
+    HomeIcon,
+    DocumentDuplicateIcon,
+    AcademicCapIcon,
+    CodeBracketIcon,
+} from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
@@ -14,6 +20,7 @@ const links = [
         icon: DocumentDuplicateIcon,
     },
     { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
+    { name: 'Test', href: '/dashboard/test', icon: CodeBracketIcon },
     { name: 'Tic-Tac-Toe', href: '/dashboard/tic-tac-toe', icon: AcademicCapIcon },
 ]
 
